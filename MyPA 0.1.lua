@@ -102,7 +102,7 @@ function Key(msg,code)
 		me:FindItem("item_black_king_bar") -- ➜ BKB item[1]
 	}
 	skill = {
-		me:GetAbility(4)                   -- ➜ skill[1] -- DUEL
+		me:GetAbility(2)                   -- ➜ skill[2] -- PhantomStrike
 	}
 	if client.chat or client.console or client.loading then return end
 	if item[1] and codes[1] and not toggle[5] then
@@ -170,7 +170,7 @@ function Main(tick)
 	me = entityList:GetMyHero()
 	if not me then return end
 	if not SleepCheck() then return end
-	target = targetFind:GetClosestToMouse(100)
+	target = targetFind:GetClosestToMouse(300)
 	item = {
 		me:DoesHaveModifier("modifier_item_armlet_unholy_strength"), -- ➜ item[1]
 		me:FindItem("item_blink"), 									 -- ➜ item[2]
@@ -185,11 +185,10 @@ function Main(tick)
 		me:FindItem("item_urn_of_shadows"),                          -- ➜ item[11]
 	}
 	skill = {
-		me:GetAbility(1),                                            -- ➜ skill[1] -- Arrows
-		me:GetAbility(2),                                            -- ➜ skill[2] -- Buff
-		me:GetAbility(4),                                            -- ➜ skill[3] -- DUEL
+		me:GetAbility(1),                                            -- ➜ skill[1] -- StiflingDagger
+		me:GetAbility(2),                                            -- ➜ skill[2] -- PhantomStrike
 	}
-	if target and GetDistance2D(me,target) < 2000 and skill[3] and target.alive and target.visible then
+	if target and GetDistance2D(me,target) < 1000 and skill[2] and target.alive and target.visible then
 		blink.entity            = target 
 		blink.entityPosition    = Vector(0,0,target.healthbarOffset)
 		blink.textureId         = drawMgr:GetTextureId("NyanUI/items/blink")
@@ -206,7 +205,7 @@ function Main(tick)
 	if target and GetDistance2D(me,target) < 950 and item[11] then
 		Autourn()
 	end
-	if codes[4] and skill[3].level > 0 and target and target.visible and target.alive and me.alive and GetDistance2D(me,target) < 1200 and SleepCheck("DelayCombo") and SleepCheck("duelactive") then
+	if codes[4] and skill[2].level > 0 and target and target.visible and target.alive and me.alive and GetDistance2D(me,target) < 1000 and SleepCheck("DelayCombo") and SleepCheck("duelactive") then
 		Sleep(300,"DelayCombo")
 		BlinkCombo()
 	end
@@ -215,7 +214,7 @@ end
 function markedfordeath()
 	if target and target.alive and target.visible then
 		ikillyou.visible = true
-		if item[2] and GetDistance2D(me,target) < 1200 then
+		if item[2] and GetDistance2D(me,target) < 1000 then
 			blink.visible   = true
 			blinkbg.visible = true
 		else
@@ -244,10 +243,15 @@ function BlinkCombo()
 		codes[6] = false
 	end
 	if me:CanCast() and not me:IsChanneling() and not codes[6] then
-		-- ➜ Press the attack
+		-- ➜ StiflingDagger
+		if skill[1]:CanBeCasted() then
+			me:CastAbility(skill[1],target)
+			Sleep(skill[1]:FindCastPoint()*300)
+		end
+		-- ➜ PhantomStrike
 		if skill[2]:CanBeCasted() then
-			me:CastAbility(skill[2],me)
-			Sleep(skill[2]:FindCastPoint()*500)
+			me:CastAbility(skill[2],target)
+			Sleep(skill[2]:FindCastPoint()*300)
 		end
 		-- ➜ Blink dagger
 		if item[2] and item[2]:CanBeCasted() and GetDistance2D(me,target) > 150 then
