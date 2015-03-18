@@ -75,7 +75,7 @@ local blink      = drawMgr:CreateRect(-16,-80,43,27,0x000000ff) blink.visible   
 function onLoad()
 	if PlayingGame() then
 		me = entityList:GetMyHero()
-		if not me or me.classId ~= CDOTA_Unit_Hero_Legion_Commander then 
+		if not me or me.classId ~= CDOTA_Unit_Hero_PhantomAssassin then 
 			script:Disable()
 		else
 			if toggle[4] then
