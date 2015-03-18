@@ -310,16 +310,18 @@ function BlinkCombo()
 		end
 		-- ➜ Duel Hability
 		if target.classId == CDOTA_Unit_Hero_Abaddon and target:GetAbility(4).cd > 5 then
-			if SleepCheck("duel") and skill[3]:CanBeCasted() and not target:IsLinkensProtected() and not target:IsPhysDmgImmune() and not target:DoesHaveModifier("modifier_abaddon_borrowed_time") then
-				me:CastAbility(skill[3],target)
+			if SleepCheck("duel") and skill[2]:CanBeCasted() and not target:IsLinkensProtected() and not target:IsPhysDmgImmune() and not target:DoesHaveModifier("modifier_abaddon_borrowed_time") then
+				me:CastAbility(skill[2],target)
 				Sleep(skill[2]:FindCastPoint()*800)
+				me:Attack(target) 
 				Sleep(80,"duelactive")
 				codes[4] = false
 			end
 		elseif target.classId ~= CDOTA_Unit_Hero_Abaddon then
-			if SleepCheck("duel") and skill[3]:CanBeCasted() and not target:IsLinkensProtected() and not target:IsPhysDmgImmune() and not target:DoesHaveModifier("modifier_abaddon_borrowed_time") then
-				me:CastAbility(skill[3],target)
-				Sleep(skill[2]:FindCastPoint()*800)
+			if SleepCheck("duel") and skill[2]:CanBeCasted() and not target:IsLinkensProtected() and not target:IsPhysDmgImmune() and not target:DoesHaveModifier("modifier_abaddon_borrowed_time") then
+				me:CastAbility(skill[2],target)
+				Sleep(skill[2]:FindCastPoint()*300)
+				me:Attack(target) 
 				Sleep(80,"duelactive")
 				codes[4] = false
 			end
